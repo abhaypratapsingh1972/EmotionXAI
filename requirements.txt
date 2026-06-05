@@ -3,7 +3,7 @@ torch
 torchvision
 timm
 pillow
-numpy
-opencv-python
+numpy<2
+opencv-python-headless
 grad-cam
 pandas
