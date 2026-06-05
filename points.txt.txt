@@ -1,0 +1,11 @@
+EmotionXAI | PyTorch, EfficientNet-B0, Grad-CAM, Streamlit
+
+• Developed and deployed an Explainable Facial Emotion Recognition web application using EfficientNet-B0 and Grad-CAM.
+
+• Trained on the FER2013 dataset and achieved 69.5% classification accuracy across seven emotion classes.
+
+• Integrated Grad-CAM visual explanations to highlight facial regions influencing model predictions.
+
+• Built an interactive Streamlit interface supporting image upload, confidence scoring, top-3 predictions, probability visualization, and downloadable prediction reports.
+
+• Deployed the application on Streamlit Cloud for public access.
