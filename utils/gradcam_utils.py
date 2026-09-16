@@ -14,35 +14,42 @@ def generate_gradcam(
 
     model.eval()
 
-    # Target the final convolutional feature block
-    target_layers = [model.features[-1]]
+    # EfficientNet-B0 target layer
+    target_layers = [model.conv_head]
 
-    # Get predicted class
+    # Get model prediction
     with torch.no_grad():
         output = model(input_tensor)
-        predicted_class = output.argmax(dim=1).item()
 
-    # Tell Grad-CAM which class to explain
+        # Handle models that return a tensor
+        if isinstance(output, torch.Tensor):
+            predicted_class = output.argmax(dim=1).item()
+        else:
+            predicted_class = output.logits.argmax(dim=1).item()
+
+    # Explain the predicted emotion
     targets = [
         ClassifierOutputTarget(predicted_class)
     ]
 
+    # Create Grad-CAM
     cam = GradCAM(
         model=model,
         target_layers=target_layers
     )
 
+    # Generate CAM
     grayscale_cam = cam(
         input_tensor=input_tensor,
         targets=targets
     )[0]
 
-    # Convert PIL image to NumPy
+    # Convert image to RGB NumPy array
     rgb_img = np.array(
         image.resize((224, 224))
     ).astype(np.float32) / 255.0
 
-    # Generate heatmap overlay
+    # Create heatmap overlay
     visualization = show_cam_on_image(
         rgb_img,
         grayscale_cam,
